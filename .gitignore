@@ -1,0 +1,41 @@
+# Android / Gradle build outputs
+android/.gradle/
+android/build/
+android/app/build/
+android-build/
+.gradle/
+.kotlin/
+
+# Local SDK path and signing material (never commit)
+local.properties
+keystore.properties
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+
+# Generated previews / temporary files
+dist/pwa/
+dist/test-*.html
+.tmp/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Old release files kept outside the final deliverable
+dist/记把好账-v1.6.13.apk
+dist/记把好账-v1.6.13.apk.idsig
+dist/更新指南-v1.6.3.jpg

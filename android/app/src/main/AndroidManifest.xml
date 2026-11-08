@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.qinghe.ledger"
+    android:versionCode="33"
+    android:versionName="2.0.0">
+
+    <!-- 页面直接从 assets 读入 WebView，不申请 INTERNET，App 没有任何联网能力 -->
+    <!-- 悬浮球需要「显示在其他应用上层」；未授权只影响悬浮球，不影响其他入口 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 指纹解锁：只用于本地 BiometricPrompt，不上传任何生物识别数据 -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <!-- 悬浮球常驻前台服务 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- 只用于引导用户关闭电池限制，避免悬浮球被系统冻结 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 状态栏快捷磁贴「记一笔」：纯入口，不做任何识别 -->
+        <service
+            android:name=".QuickTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile_ledger"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- 悬浮球：常驻前台服务，点一下弹出快捷记账小窗 -->
+        <service
+            android:name=".FloatingBallService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="快速记账悬浮球，用户主动开启，可随时关闭" />
+        </service>
+
+        <!-- 通知栏快捷按钮 / 桌面小组件按钮的落点 -->
+        <receiver
+            android:name=".QuickAddReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.qinghe.ledger.action.QUICK" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>
