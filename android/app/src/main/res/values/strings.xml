@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">记把好账</string>
-    <string name="tile_label">记一笔</string>
-    <string name="tile_desc">下拉状态栏点一下，打开记账面板</string>
-</resources>
